@@ -1,7 +1,6 @@
 # 🕹️ Vending Machine
-Proyek tugas besar grafika komputer 
 
-Selamat datang di repositori GitHub kami untuk Tugas Besar Ujian Akhir Semester mata kuliah Grafika Komputer. Kami adalah Kelompok 3 yang terdiri dari:
+Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata kuliah Grafika Komputer menggunakan JS. Kami adalah Kelompok 3 yang terdiri dari:
 
 - Jessica Alvina
 - Josephine Alvina L  
