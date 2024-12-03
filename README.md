@@ -1,4 +1,4 @@
-# 🕹️ Vending Machine
+# Flappy Bird 3D
 
 Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata kuliah Grafika Komputer menggunakan JS. Kami adalah Kelompok 3 yang terdiri dari:
 
