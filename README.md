@@ -9,16 +9,14 @@ Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata ku
 - Cherno Jov
 
 ## 🎯 Tujuan
-- Coming Soon
-
-## 📋 Fungsi Pengguna
-- Coming Soon
+- Membuat sebuah games seperti Flappy Bird namun dalam bentuk 3D
 
 ## 📚 Daftar Branch
 - Main
 
 ## ⚙️ Teknologi yang dipakai
-- Coming Soon
+- Three.js
+- React Three Fiber
 
 ## 💻 Demo
 - Coming Soon
