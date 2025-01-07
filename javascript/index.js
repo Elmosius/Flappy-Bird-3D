@@ -27,7 +27,7 @@ const floorMaterial = new THREE.MeshStandardMaterial({
 });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
-floor.position.y = -1;
+floor.position.y = -5;
 scene.add(floor);
 
 const pipeColor = 0x5fc943;
@@ -63,6 +63,14 @@ loader.load('./assets/phoenix_bird.glb', (gltf) => {
   bird.scale.set(0.005, 0.005, 0.005);
   scene.add(bird);
 });
+
+const skyboxLoader = new THREE.CubeTextureLoader();
+const skyboxTexture = skyboxLoader.load([
+  './skyBox/px.png', './skyBox/nx.png',
+  './skyBox/py.png', './skyBox/ny.png',
+  './skyBox/pz.png', './skyBox/nz.png',
+]);
+scene.background = skyboxTexture;
 
 camera.position.set(0, 2, 30);
 
