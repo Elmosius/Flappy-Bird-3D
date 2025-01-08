@@ -30,29 +30,54 @@ floor.rotation.x = -Math.PI / 2;
 floor.position.y = -5;
 scene.add(floor);
 
-const pipeColor = 0x5fc943;
-const pipeGeometry = new THREE.CylinderGeometry(1, 1, 10, 32);
-const pipeMaterial = new THREE.MeshStandardMaterial({ color: pipeColor });
+// Array untuk menyimpan pasangan pipa
+const pipes = [];
 
-const pipeSpacing = 10; // Jarak antar pasangan pipa
-const gapHeight = 5; // Tinggi celah antara pipa atas dan bawah
-const pipeCount = 10; // Jumlah pasangan pipa
-let pipes = []; // Array untuk menyimpan pasangan pipa
+// Fungsi untuk membuat pipa dengan ujung membesar
+function createPipe(x, z, height, gap) {
+  const pipeColor = 0x5fc943; // Warna hijau
+  const pipeMaterial = new THREE.MeshStandardMaterial({ color: pipeColor });
 
-for (let i = 0; i < pipeCount; i++) {
-  const xPosition = i * pipeSpacing;
+  // Bagian bawah pipa
+  const bottomPipeGeometry = new THREE.CylinderGeometry(1, 1, height, 32); // Geometri tabung bawah
+  const bottomPipe = new THREE.Mesh(bottomPipeGeometry, pipeMaterial);
+  bottomPipe.position.set(x, height / 2, z); // Tempatkan bagian bawah
+  scene.add(bottomPipe);
 
-  // Pipa bawah
-  const lowerPipe = new THREE.Mesh(pipeGeometry, pipeMaterial);
-  lowerPipe.position.set(xPosition, -5, 0); // Posisi pipa bawah lebih rendah
-  scene.add(lowerPipe);
+  // Bagian atas pipa
+  const topPipeGeometry = new THREE.CylinderGeometry(1, 1, height, 32); // Geometri tabung atas
+  const topPipe = new THREE.Mesh(topPipeGeometry, pipeMaterial);
+  topPipe.position.set(x, gap + height + height / 2, z); // Tempatkan bagian atas
+  scene.add(topPipe);
 
-  // Pipa atas
-  const upperPipe = new THREE.Mesh(pipeGeometry, pipeMaterial);
-  upperPipe.position.set(xPosition, 5 + gapHeight, 0); // Posisi pipa atas lebih tinggi
-  scene.add(upperPipe);
+  // Ujung bawah (membesar)
+  const bottomEdgeGeometry = new THREE.CylinderGeometry(1.2, 1.2, 0.5, 32); // Membesar di ujung
+  const bottomEdge = new THREE.Mesh(bottomEdgeGeometry, pipeMaterial);
+  bottomEdge.position.set(x, height + 0.25, z); // Tepat di ujung atas pipa bawah
+  scene.add(bottomEdge);
 
-  pipes.push({ lowerPipe, upperPipe, baseY: Math.random() * 2 - 1 }); // Simpan pipa dan posisi dasar
+  // Ujung atas (membesar)
+  const topEdgeGeometry = new THREE.CylinderGeometry(1.2, 1.2, 0.5, 32); // Membesar di ujung
+  const topEdge = new THREE.Mesh(topEdgeGeometry, pipeMaterial);
+  topEdge.position.set(x, gap + height - 0.25, z); // Tepat di ujung bawah pipa atas
+  scene.add(topEdge);
+
+  // Simpan pasangan pipa dan posisi dasarnya
+  pipes.push({
+    lowerPipe: bottomPipe,
+    upperPipe: topPipe,
+    baseY: height / 2,
+    gapHeight: gap,
+  });
+}
+
+// Tambahkan pipa ke scene
+for (let i = 0; i < 5; i++) {
+  const x = i * 10; // Posisi horizontal
+  const z = 0; // Posisi sumbu Z
+  const height = 10; // Tinggi tubuh pipa
+  const gap = 5; // Jarak antara pipa atas dan bawah
+  createPipe(x, z, height, gap); // Panggil fungsi untuk membuat pipa
 }
 
 const loader = new GLTFLoader();
@@ -82,15 +107,6 @@ function animate() {
   if (bird) {
     bird.rotation.y += 0.01;
   }
-
-  // Animasi naik turun pipa
-  time += 0.01;
-  pipes.forEach((pair, index) => {
-    const waveOffset = index * 0.5; // Offset gelombang untuk setiap pipa
-    const wave = Math.sin(time + waveOffset) * 2; // Gelombang sinusoidal
-    pair.lowerPipe.position.y = pair.baseY + wave - 5;
-    pair.upperPipe.position.y = pair.baseY + wave + 5 + gapHeight;
-  });
 
   controls.update();
   renderer.render(scene, camera);
