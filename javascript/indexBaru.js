@@ -27,7 +27,7 @@ const floorMaterial = new THREE.MeshStandardMaterial({
 });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
-floor.position.y = -10;
+floor.position.y = -15;
 scene.add(floor);
 
 const pipes = [];
