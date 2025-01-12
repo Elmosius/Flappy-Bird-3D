@@ -1,14 +1,16 @@
+import * as CANNON from "cannon-es";
 import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
 import { Clock, AnimationMixer } from "three";
 
 export default class Bird {
-  constructor(scene, camera) {
+  constructor(scene, camera, physicsWorld) {
     this.scene = scene;
     this.camera = camera;
     this.clock = new Clock();
     this.mixer = null;
     this.bird = null;
-
+    this.physicsWorld = physicsWorld;
+    this.initPhysics();
     this.loadBird();
   }
 
@@ -28,12 +30,31 @@ export default class Bird {
     });
   }
 
+  initPhysics() {
+    this.body = new CANNON.Body({
+      mass: 1,
+      position: new CANNON.Vec3(0, 1, 0),
+      shape: new CANNON.Sphere(0.5),
+    });
+
+    this.physicsWorld.addBody(this.body);
+  }
+
   update() {
     if (this.mixer) this.mixer.update(this.clock.getDelta());
-    if (this.bird) {
-      this.bird.position.x += 0.1;
+
+    if (this.bird && this.body) {
+      this.bird.position.copy(this.body.position);
+      this.bird.quaternion.copy(this.body.quaternion);
+
       this.camera.position.set(this.bird.position.x - 5, this.bird.position.y + 2, this.bird.position.z);
       this.camera.lookAt(this.bird.position);
+    }
+  }
+
+  jump() {
+    if (this.body) {
+      this.body.velocity.y = 5;
     }
   }
 }

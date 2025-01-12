@@ -1,8 +1,10 @@
 import * as THREE from "three";
-
+import * as CANNON from "cannon-es";
+ 
 export default class Floor {
-  constructor(scene) {
+  constructor(scene, physicsWorld) {
     this.scene = scene;
+    this.physicsWorld = physicsWorld;
     this.addFloor();
   }
 
@@ -16,5 +18,13 @@ export default class Floor {
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -1;
     this.scene.add(floor);
+
+    const floorBody = new CANNON.Body({
+      type: CANNON.Body.STATIC,
+      shape: new CANNON.Plane(),
+    });
+    floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+    floorBody.position.set(0, -1, 0);
+    this.physicsWorld.addBody(floorBody);
   }
 }
