@@ -1,3 +1,4 @@
+import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import Controls from "./components/controls.js";
 import Lights from "./components/lights.js";
@@ -5,6 +6,7 @@ import Floor from "./components/floor.js";
 import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
+import KeyboardHelper from "./components/Keyboard.js";
 
 //* SETUP
 const scene = new THREE.Scene();
@@ -14,11 +16,16 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// cannon
+const world = new CANNON.World();
+world.gravity.set(0, -9.82, 0);
+
 // new Controls(camera, document.body);
 new Lights(scene);
-new Floor(scene);
+new Floor(scene, world);
 new SkyBox(scene);
 
+const keyboard = new KeyboardHelper();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PIPA
@@ -36,15 +43,21 @@ const barkMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.0,
 });
 for (let i = 0; i < 5; i++) {
-  new Pipe(scene, barkMaterial, i * 15, 0, 20, 10);
+  new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 10);
 }
 // end of PIPA
-
-const bird = new Bird(scene, camera);
+const bird = new Bird(scene, camera, world);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 function animate() {
   requestAnimationFrame(animate);
+
+  world.step(1 / 60);
+
+  if (keyboard.keys[" "]) {
+    bird.jump();
+  }
+
   bird.update();
   renderer.render(scene, camera);
 }
