@@ -67,6 +67,12 @@ export default class Bird {
         this.isFalling = true;
         this.stopAnimation();
         this.stopBird();
+
+        // reset dari awal lagi
+        setTimeout(() => {
+          alert("Game Over semetara hehe");
+          this.resetBird();
+        }, 500);
       }
 
       this.camera.position.set(this.bird.position.x - 5, this.bird.position.y + 2, this.bird.position.z);
@@ -91,5 +97,24 @@ export default class Bird {
     this.body.angularVelocity.set(0, 0, 0);
     this.body.angularFactor.set(0, 0, 0);
     this.body.velocity.set(0, 0, 0);
+  }
+
+  resetBird() {
+    this.body.position.set(0, 1, 0);
+    this.body.velocity.set(2, 0, 0);
+    this.body.angularVelocity.set(0, 0, 0);
+
+    this.body.quaternion.set(0, 0, 0, 1);
+
+    this.body.angularFactor.set(0, 0, 0);
+    this.isFalling = false;
+
+    if (this.mixer && this.bird) {
+      const animations = this.mixer._actions;
+      animations.forEach((action) => {
+        action.reset();
+        action.play();
+      });
+    }
   }
 }
