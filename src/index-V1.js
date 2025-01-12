@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { GLTFLoader } from "../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-import { PointerLockControls } from "../node_modules/three/examples/jsm/controls/PointerLockControls.js";
-import KeyboardHelper from "./components/keyboard.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
+import KeyboardHelper from "./components/Keyboard.js";
 
 // Setup scene, camera, and renderer
 const scene = new THREE.Scene();
