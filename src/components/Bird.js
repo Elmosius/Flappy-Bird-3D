@@ -39,7 +39,7 @@ export default class Bird {
       shape: new CANNON.Sphere(0.5),
     });
 
-    this.body.collisionResponse = false;
+    this.body.collisionResponse = true;
     // biar maju ke depan terus
     this.body.velocity.set(2, 0, 0);
 
@@ -47,6 +47,13 @@ export default class Bird {
     this.body.angularFactor.set(0, 0, 0);
 
     this.physicsWorld.addBody(this.body);
+
+    this.body.addEventListener("collide", (event) => {
+      if (event.body) {
+        console.log("Collision detected with:", event.body);
+        this.onCollision(event);
+      }
+    });
   }
 
   update() {
@@ -58,21 +65,19 @@ export default class Bird {
       this.bird.position.copy(this.body.position);
       this.bird.quaternion.copy(this.body.quaternion);
 
+      // biar ga nembus lantai
       if (this.body.position.y < -1) {
         this.body.position.y = -1;
         this.body.velocity.y = 0;
       }
 
-      if (this.body.position.y <= -1 && !this.isFalling) {
-        this.isFalling = true;
+      if (Math.round(this.body.position.y) <= -1 && this.isFalling) {
         this.stopAnimation();
         this.stopBird();
 
         // reset dari awal lagi
-        setTimeout(() => {
-          alert("Game Over semetara hehe");
-          this.resetBird();
-        }, 500);
+        alert("Game Over semetara hehe");
+        this.resetBird();
       }
 
       this.camera.position.set(this.bird.position.x - 5, this.bird.position.y + 2, this.bird.position.z);
@@ -81,7 +86,7 @@ export default class Bird {
   }
 
   jump() {
-    if (this.body) {
+    if (this.body && !this.isFalling) {
       this.body.velocity.y = 5;
     }
   }
@@ -99,13 +104,19 @@ export default class Bird {
     this.body.velocity.set(0, 0, 0);
   }
 
+  onCollision(event) {
+    this.body.velocity.set(-2, -5, 0);
+    this.body.angularFactor.set(1, 1, 1);
+    this.body.angularVelocity.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
+    this.isFalling = true;
+    this.stopAnimation();
+  }
+
   resetBird() {
     this.body.position.set(0, 1, 0);
     this.body.velocity.set(2, 0, 0);
     this.body.angularVelocity.set(0, 0, 0);
-
     this.body.quaternion.set(0, 0, 0, 1);
-
     this.body.angularFactor.set(0, 0, 0);
     this.isFalling = false;
 
@@ -116,5 +127,6 @@ export default class Bird {
         action.play();
       });
     }
+    location.reload();
   }
 }

@@ -43,7 +43,7 @@ const barkMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.0,
 });
 for (let i = 0; i < 5; i++) {
-  new Pipe(scene, barkMaterial, i * 15, 0, 20, 10);
+  new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 10);
 }
 // end of PIPA
 const bird = new Bird(scene, camera, world);
