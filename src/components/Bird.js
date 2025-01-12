@@ -9,7 +9,9 @@ export default class Bird {
     this.clock = new Clock();
     this.mixer = null;
     this.bird = null;
+    this.isFalling = false;
     this.physicsWorld = physicsWorld;
+
     this.initPhysics();
     this.loadBird();
   }
@@ -37,15 +39,35 @@ export default class Bird {
       shape: new CANNON.Sphere(0.5),
     });
 
+    this.body.collisionResponse = false;
+    // biar maju ke depan terus
+    this.body.velocity.set(2, 0, 0);
+
+    // kunci burung biar ga jatuh
+    this.body.angularFactor.set(0, 0, 0);
+
     this.physicsWorld.addBody(this.body);
   }
 
   update() {
-    if (this.mixer) this.mixer.update(this.clock.getDelta());
+    if (this.mixer && !this.isFalling) {
+      this.mixer.update(this.clock.getDelta());
+    }
 
     if (this.bird && this.body) {
       this.bird.position.copy(this.body.position);
       this.bird.quaternion.copy(this.body.quaternion);
+
+      if (this.body.position.y < -1) {
+        this.body.position.y = -1;
+        this.body.velocity.y = 0;
+      }
+
+      if (this.body.position.y <= -1 && !this.isFalling) {
+        this.isFalling = true;
+        this.stopAnimation();
+        this.stopBird();
+      }
 
       this.camera.position.set(this.bird.position.x - 5, this.bird.position.y + 2, this.bird.position.z);
       this.camera.lookAt(this.bird.position);
@@ -56,5 +78,18 @@ export default class Bird {
     if (this.body) {
       this.body.velocity.y = 5;
     }
+  }
+
+  stopAnimation() {
+    if (this.mixer) {
+      this.mixer.stopAllAction();
+    }
+  }
+
+  stopBird() {
+    this.body.velocity.set(0, 0, 0);
+    this.body.angularVelocity.set(0, 0, 0);
+    this.body.angularFactor.set(0, 0, 0);
+    this.body.velocity.set(0, 0, 0);
   }
 }
