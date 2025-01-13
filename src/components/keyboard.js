@@ -10,4 +10,5 @@ export default class KeyboardHelper {
     on_key_up(ev) {
       this.keys[ev.key] = false;
     }
+    
   }
