@@ -11,7 +11,6 @@ import AudioHelper from "./components/Audio.js";
 import Score from "./components/Score.js";
 import Mountain from "./components/Mountain.js";
 
-
 //* SETUP
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog(0xa0a0a0, 100, 500);
@@ -46,9 +45,9 @@ const keyboard = new KeyboardHelper();
 // PIPA
 const textureLoader = new THREE.TextureLoader();
 const barkColorTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
-const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
-const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
-const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
+const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_AmbientOcclusion.png");
+const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Roughness.png");
+const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_NormalGL.png");
 const barkMaterial = new THREE.MeshStandardMaterial({
   map: barkColorTexture,
   aoMap: barkAOTexure,
@@ -57,8 +56,11 @@ const barkMaterial = new THREE.MeshStandardMaterial({
   roughness: 1.0,
   metalness: 0.0,
 });
+
+const pipes = [];
 for (let i = 0; i < 5; i++) {
-  new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 10);
+  const pipe = new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 15);
+  pipes.push(pipe);
 }
 // end of PIPA
 
@@ -86,19 +88,16 @@ function updateFloor() {
 }
 
 function updatePipes() {
-  scene.children.forEach((object) => {
-    if (object.name === "pipe" && object.position && object.position.y < 0) {
-      // Pastikan ini adalah pipa bawah
-      if (bird.body.position.x > object.position.x && !object.scored) {
-        scoreManager.updateScore(1);
-        object.scored = true;
-        console.log("Burung melewati pasangan pipa, skor bertambah.");
-      }
+  pipes.forEach((pipe) => {
+    if (bird.body.position.x > pipe.bottomPipe.mesh.position.x && !pipe.bottomPipe.mesh.scored) {
+      scoreManager.updateScore(1);
+      pipe.bottomPipe.mesh.scored = true;
+    }
 
-      if (object.position.x < camera.position.x - 10) {
-        object.position.x += 100;
-        object.scored = false;
-      }
+    if (pipe.bottomPipe.mesh.position.x < camera.position.x - 10) {
+      const newX = pipe.bottomPipe.mesh.position.x + 100;
+      pipe.updatePosition(newX, pipe.bottomPipe.mesh.position.z);
+      pipe.bottomPipe.mesh.scored = false;
     }
   });
 }

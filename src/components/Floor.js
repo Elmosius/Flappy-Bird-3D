@@ -7,12 +7,14 @@ export default class Floor {
     this.scene = scene;
     this.physicsWorld = physicsWorld;
     this.camera = camera;
+
     this.bird = bird;
     this.rockyTexture = null;
     this.trees = [];
     this.treeModel = null;
     this.lastTreePosition = -200; 
     this.treeBatchSize = 30;
+
     this.initFloor();
     this.loadTreeModel();
   }
@@ -24,10 +26,12 @@ export default class Floor {
     this.rockyTexture.repeat.set(50, 50);
 
 
+
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(500, 500),
       new THREE.MeshStandardMaterial({ map: this.rockyTexture })
     );
+
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -5;
     floor.name = "floor";
@@ -42,6 +46,7 @@ export default class Floor {
     this.physicsWorld.addBody(floorBody);
 
     this.floor = floor;
+
   }
 
   loadTreeModel() {
@@ -117,6 +122,7 @@ export default class Floor {
 
   update() {
     if (this.rockyTexture && this.camera) {
+
       this.rockyTexture.offset.x = this.camera.position.x * 0.01;
       this.rockyTexture.offset.y = this.camera.position.z * 0.01;
     }

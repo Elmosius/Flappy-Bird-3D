@@ -10,7 +10,7 @@ export default class SkyBox {
     const skyboxLoader = new CubeTextureLoader();
     this.scene.background = skyboxLoader.load([
       "./assets/skyBox/cube_down.png",
-      "./assets/skyBox/cube_front.png", //posisi depan
+      "./assets/skyBox/cube_front.png",
       "./assets/skyBox/cube_back.png",
       "./assets/skyBox/cube_up.png",
       "./assets/skyBox/cube_left.png",
