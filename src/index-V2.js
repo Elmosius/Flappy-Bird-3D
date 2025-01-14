@@ -39,10 +39,10 @@ const keyboard = new KeyboardHelper();
 
 // PIPA
 const textureLoader = new THREE.TextureLoader();
-const barkColorTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
-const barkAOTexure = textureLoader.load("./assets/textures/pipe_texture.jpg");
-const barkRoughnessTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
-const barkNormalTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkColorTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
+const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_AmbientOcclusion.png");
+const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Roughness.png");
+const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_NormalGL.png");
 const barkMaterial = new THREE.MeshStandardMaterial({
   map: barkColorTexture,
   aoMap: barkAOTexure,
@@ -51,8 +51,11 @@ const barkMaterial = new THREE.MeshStandardMaterial({
   roughness: 1.0,
   metalness: 0.0,
 });
+
+const pipes = [];
 for (let i = 0; i < 5; i++) {
-  new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 15);
+  const pipe = new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 15);
+  pipes.push(pipe);
 }
 // end of PIPA
 
@@ -80,21 +83,16 @@ function updateFloor() {
 }
 
 function updatePipes() {
-  const pipes = scene.children.filter((object) => object.name === "pipe");
-
   pipes.forEach((pipe) => {
-    // Cek apakah pipa telah melewati burung
-    if (bird.body.position.x > pipe.position.x && !pipe.scored) {
+    if (bird.body.position.x > pipe.bottomPipe.mesh.position.x && !pipe.bottomPipe.mesh.scored) {
       scoreManager.updateScore(1);
-      pipe.scored = true;
-      console.log("Burung melewati pasangan pipa, skor bertambah.");
+      pipe.bottomPipe.mesh.scored = true;
     }
 
-    // Jika pipa berada di luar pandangan kamera, pindahkan ke depan
-    if (pipe.position.x < camera.position.x - 10) {
-      const pairGap = 20;
-      pipe.position.x += pairGap * 5;
-      pipe.scored = false;
+    if (pipe.bottomPipe.mesh.position.x < camera.position.x - 10) {
+      const newX = pipe.bottomPipe.mesh.position.x + 100;
+      pipe.updatePosition(newX, pipe.bottomPipe.mesh.position.z);
+      pipe.bottomPipe.mesh.scored = false;
     }
   });
 }

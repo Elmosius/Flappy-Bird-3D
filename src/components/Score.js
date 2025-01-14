@@ -18,7 +18,7 @@ export default class Score {
   }
 
   updateScore(points = 0) {
-    this.score += points / 4;
+    this.score += points;
     console.log("score apdet", this.score);
     this.scoreElement.innerText = `Score: ${this.score}`;
   }
