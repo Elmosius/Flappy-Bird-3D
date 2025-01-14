@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
-  
+
 export default class Pipe {
   constructor(scene, barkMaterial, physicsWorld, x, z, height, gap) {
     this.scene = scene;
@@ -30,6 +30,11 @@ export default class Pipe {
     bottomPipeBody.position.set(this.x, randomGapY - this.gap / 2 - this.height / 2, this.z);
     this.physicsWorld.addBody(bottomPipeBody);
 
+    const bottomEdgeGeometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 32);
+    const bottomEdge = new THREE.Mesh(bottomEdgeGeometry, this.barkMaterial);
+    bottomEdge.position.set(this.x, randomGapY - this.gap / 2, this.z);
+    this.scene.add(bottomEdge);
+
     const topPipeMesh = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, this.height, 32), this.barkMaterial);
     topPipeMesh.position.set(this.x, randomGapY + this.gap / 2 + this.height / 2, this.z);
     this.scene.add(topPipeMesh);
@@ -40,6 +45,11 @@ export default class Pipe {
     });
     topPipeBody.position.set(this.x, randomGapY + this.gap / 2 + this.height / 2, this.z);
     this.physicsWorld.addBody(topPipeBody);
+
+    const topEdgeGeometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 32);
+    const topEdge = new THREE.Mesh(topEdgeGeometry, this.barkMaterial);
+    topEdge.position.set(this.x, randomGapY + this.gap / 2, this.z);
+    this.scene.add(topEdge);
 
     this.bottomPipe = { mesh: bottomPipeMesh, body: bottomPipeBody };
     this.topPipe = { mesh: topPipeMesh, body: topPipeBody };
