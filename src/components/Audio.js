@@ -1,17 +1,58 @@
 import { Audio, AudioListener, AudioLoader } from "three";
 
-export function Audio(camera) {
-  const listener = new AudioListener();
-  camera.add(listener);
+export default class AudioHelper {
+  constructor(camera, filePath, options = {}) {
+    this.camera = camera;
+    this.filePath = filePath;
+    this.options = {
+      loop: options.loop || true,
+      volume: options.volume || 0.5,
+      autoplay: options.autoplay || false,
+    };
+    this.listener = new AudioListener();
+    this.sound = null;
 
-  const sound = new Audio(listener);
-  const audioLoader = new AudioLoader();
+    this.init();
+  }
 
-  audioLoader.load("./assets/audio/backsound_squid_game.mp3", (buffer) => {
-    sound.setBuffer(buffer);
-    sound.setLoop(true);
-    sound.setVolume(0.5);
-  });
+  init() {
+    this.camera.add(this.listener);
+    this.sound = new Audio(this.listener);
 
-  return sound;
+    const audioLoader = new AudioLoader();
+    audioLoader.load(
+      this.filePath,
+      (buffer) => {
+        this.sound.setBuffer(buffer);
+        this.sound.setLoop(this.options.loop);
+        this.sound.setVolume(this.options.volume);
+
+        if (this.options.autoplay) {
+          this.play();
+        }
+      },
+      undefined,
+      (error) => {
+        console.error("Error loading audio:", error);
+      }
+    );
+  }
+
+  play() {
+    if (this.sound && !this.sound.isPlaying) {
+      this.sound.play();
+    }
+  }
+
+  stop() {
+    if (this.sound && this.sound.isPlaying) {
+      this.sound.stop();
+    }
+  }
+
+  setVolume(volume) {
+    if (this.sound) {
+      this.sound.setVolume(volume);
+    }
+  }
 }

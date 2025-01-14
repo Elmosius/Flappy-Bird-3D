@@ -16,12 +16,14 @@ export default class Floor {
     this.rockyTexture.wrapS = this.rockyTexture.wrapT = THREE.RepeatWrapping;
     this.rockyTexture.repeat.set(50, 50); // Lebih besar untuk ilusi luas
 
+
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(500, 500), // Lebih luas untuk mendukung ilusi
       new THREE.MeshStandardMaterial({ map: this.rockyTexture })
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -5;
+    floor.name = "floor";
     this.scene.add(floor);
 
     // Sinkronkan posisi tubuh fisik lantai
