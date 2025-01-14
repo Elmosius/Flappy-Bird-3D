@@ -81,4 +81,26 @@ export default class Pipe {
       edge: { mesh: topEdgeMesh, body: topEdgeBody },
     };
   }
+
+  updatePosition(x, z) {
+    const newGapY = Math.random() * 10 - 5;
+
+    // Update posisi pipa bawah
+    this.bottomPipe.mesh.position.set(x, newGapY - this.gap / 2 - this.height / 2, z);
+    this.bottomPipe.body.position.set(x, newGapY - this.gap / 2 - this.height / 2, z);
+
+    // Update posisi pipa atas
+    this.topPipe.mesh.position.set(x, newGapY + this.gap / 2 + this.height / 2, z);
+    this.topPipe.body.position.set(x, newGapY + this.gap / 2 + this.height / 2, z);
+
+    // Update posisi edge jika ada
+    if (this.bottomPipe.edge) {
+      this.bottomPipe.edge.mesh.position.set(x, newGapY - this.gap / 2, z);
+      this.bottomPipe.edge.body.position.set(x, newGapY - this.gap / 2, z);
+    }
+    if (this.topPipe.edge) {
+      this.topPipe.edge.mesh.position.set(x, newGapY + this.gap / 2, z);
+      this.topPipe.edge.body.position.set(x, newGapY + this.gap / 2, z);
+    }
+  }
 }
