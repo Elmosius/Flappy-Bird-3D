@@ -3,7 +3,7 @@ import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLo
 import { Clock, AnimationMixer } from "three";
 
 export default class Bird {
-  constructor(scene, camera, physicsWorld) {
+  constructor(scene, camera, physicsWorld, scoreManager) {
     this.scene = scene;
     this.camera = camera;
     this.clock = new Clock();
@@ -11,6 +11,8 @@ export default class Bird {
     this.bird = null;
     this.isFalling = false;
     this.physicsWorld = physicsWorld;
+    this.scoreManager = scoreManager;
+    this.lastSpeedMultiplier = 1;
 
     this.initPhysics();
     this.loadBird();
@@ -20,7 +22,9 @@ export default class Bird {
     const loader = new GLTFLoader();
     loader.load("./assets/objects/phoenix_bird.glb", (gltf) => {
       this.bird = gltf.scene;
-      this.bird.position.set(0, 1, 0);
+      this.bird.position.set(0, 0, 0);
+
+      console.info(this.bird.position);
       this.bird.scale.set(0.005, 0.005, 0.005);
       this.scene.add(this.bird);
 
@@ -35,13 +39,13 @@ export default class Bird {
   initPhysics() {
     this.body = new CANNON.Body({
       mass: 1,
-      position: new CANNON.Vec3(0, 1, 0),
+      position: new CANNON.Vec3(0, 5, 0),
       shape: new CANNON.Sphere(0.5),
     });
 
     this.body.collisionResponse = true;
     // biar maju ke depan terus
-    this.body.velocity.set(2, 0, 0);
+    this.body.velocity.set(3, 0, 0);
 
     // kunci burung biar ga jatuh
     this.body.angularFactor.set(0, 0, 0);
@@ -62,10 +66,20 @@ export default class Bird {
     }
 
     if (this.bird && this.body) {
+      const currentScore = this.scoreManager.getScore();
+      const speedMultiplier = 1 + Math.floor(currentScore / 5) * 0.25;
+
+      if (speedMultiplier !== this.lastSpeedMultiplier) {
+        console.log(`nambah cepet ${speedMultiplier}`);
+        this.lastSpeedMultiplier = speedMultiplier;
+      }
+
+      this.body.velocity.set(3 * speedMultiplier, this.body.velocity.y, this.body.velocity.z);
+
       this.bird.position.copy(this.body.position);
       this.bird.quaternion.copy(this.body.quaternion);
 
-      // biar ga nembus lantai
+      // Biar ga nembus lantai
       if (this.body.position.y < -1) {
         this.body.position.y = -1;
         this.body.velocity.y = 0;
@@ -75,8 +89,7 @@ export default class Bird {
         this.stopAnimation();
         this.stopBird();
 
-        // reset dari awal lagi
-        alert("Game Over semetara hehe");
+        alert("Game Over semantara hehe");
         this.resetBird();
       }
 
@@ -104,7 +117,7 @@ export default class Bird {
     this.body.velocity.set(0, 0, 0);
   }
 
-  onCollision(event) {
+  onCollision() {
     this.body.velocity.set(-2, -5, 0);
     this.body.angularFactor.set(1, 1, 1);
     this.body.angularVelocity.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
@@ -127,6 +140,7 @@ export default class Bird {
         action.play();
       });
     }
+    this.scoreManager.resetScore();
     location.reload();
   }
 }

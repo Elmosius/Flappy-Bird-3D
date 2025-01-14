@@ -7,6 +7,8 @@ import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
 import KeyboardHelper from "./components/Keyboard.js";
+import AudioHelper from "./components/Audio.js";
+import Score from "./components/Score.js";
 
 //* SETUP
 const scene = new THREE.Scene();
@@ -24,6 +26,13 @@ world.gravity.set(0, -9.82, 0);
 new Lights(scene);
 new Floor(scene, world);
 new SkyBox(scene);
+
+// set audio
+// const audio = new AudioHelper(camera, "/src/assets/audios/backsound_squid_game.mp3", {
+//   loop: true,
+//   volume: 0.5,
+//   autoplay: true,
+// });
 
 const keyboard = new KeyboardHelper();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +55,48 @@ for (let i = 0; i < 5; i++) {
   new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 10);
 }
 // end of PIPA
-const bird = new Bird(scene, camera, world);
 
+// SCORE
+const scoreManager = new Score();
+
+// Burungnya
+const bird = new Bird(scene, camera, world, scoreManager);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function updateFloor() {
+  const birdX = bird.body.position.x;
+
+  scene.children.forEach((object) => {
+    if (object.name === "floor") {
+      const speed = bird.body.velocity.x;
+      object.position.x -= speed * 0.02;
+
+      // Jika lantai sudah di luar pandangan kamera, pindahkan ke depan
+      if (object.position.x < birdX - 50) {
+        object.position.x += 100;
+      }
+    }
+  });
+}
+
+function updatePipes() {
+  scene.children.forEach((object) => {
+    if (object.name === "pipe" && object.position && object.position.y < 0) {
+      // Pastikan ini adalah pipa bawah
+      if (bird.body.position.x > object.position.x && !object.scored) {
+        scoreManager.updateScore(1);
+        object.scored = true;
+        console.log("Burung melewati pasangan pipa, skor bertambah.");
+      }
+
+      if (object.position.x < camera.position.x - 10) {
+        object.position.x += 100;
+        object.scored = false;
+      }
+    }
+  });
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
@@ -56,9 +104,12 @@ function animate() {
 
   if (keyboard.keys[" "]) {
     bird.jump();
+    keyboard.keys[" "] = false;
   }
 
   bird.update();
+  updatePipes();
+  updateFloor();
   renderer.render(scene, camera);
 }
 animate();
