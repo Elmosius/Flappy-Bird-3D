@@ -2,7 +2,6 @@ import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import Controls from "./components/controls.js";
 import Lights from "./components/Lights.js";
-import Floor from "./components/Floor.js";
 import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
@@ -10,6 +9,7 @@ import KeyboardHelper from "./components/keyboard.js";
 import AudioHelper from "./components/Audio.js";
 import Score from "./components/Score.js";
 import Mountain from "./components/Mountain.js";
+import Floor from "./components/floor.js";
 
 //* SETUP
 const scene = new THREE.Scene();
@@ -19,7 +19,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Mountain 
+// Mountain
 const mountain = new Mountain();
 mountain.loadMountain(scene);
 
@@ -29,7 +29,7 @@ world.gravity.set(0, -9.82, 0);
 
 // new Controls(camera, document.body);
 new Lights(scene);
-// new Floor(scene, world);
+new Floor(scene, world);
 new SkyBox(scene);
 
 // set audio

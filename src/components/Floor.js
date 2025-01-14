@@ -12,7 +12,7 @@ export default class Floor {
     this.rockyTexture = null;
     this.trees = [];
     this.treeModel = null;
-    this.lastTreePosition = -200; 
+    this.lastTreePosition = -200;
     this.treeBatchSize = 30;
 
     this.initFloor();
@@ -25,15 +25,10 @@ export default class Floor {
     this.rockyTexture.wrapS = this.rockyTexture.wrapT = THREE.RepeatWrapping;
     this.rockyTexture.repeat.set(50, 50);
 
-
-
-    const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(500, 500),
-      new THREE.MeshStandardMaterial({ map: this.rockyTexture })
-    );
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ map: this.rockyTexture, opacity: 0  , transparent: true }));
 
     floor.rotation.x = -Math.PI / 2;
-    floor.position.y = -5;
+    floor.position.y = -45;
     floor.name = "floor";
     this.scene.add(floor);
 
@@ -42,11 +37,10 @@ export default class Floor {
       shape: new CANNON.Plane(),
     });
     floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
-    floorBody.position.set(0, -5, 0);
+    floorBody.position.set(0, -45, 0);
     this.physicsWorld.addBody(floorBody);
 
     this.floor = floor;
-
   }
 
   loadTreeModel() {
@@ -68,15 +62,15 @@ export default class Floor {
   // Fungsi baru untuk menambahkan pohon awal
   addTreeFirst() {
     // Tambahkan dua batch pohon untuk mengisi area awal
-    this.addTreeBatch(); //batch 1
-    this.addTreeBatch(); //batch 2  otomatis di area 0
+    // this.addTreeBatch();
+    // this.addTreeBatch();
   }
 
   generateTreePosition(basePosition) {
     const spread = 200;
     return {
       x: (Math.random() - 0.5) * spread + basePosition,
-      z: (Math.random() - 0.5) * spread
+      z: (Math.random() - 0.5) * spread,
     };
   }
 
@@ -89,12 +83,8 @@ export default class Floor {
     for (let i = 0; i < this.treeBatchSize; i++) {
       const tree = this.treeModel.clone();
       const position = this.generateTreePosition(basePosition);
-      
-      tree.position.set(
-        position.x,
-        -5,
-        position.z
-      );
+
+      tree.position.set(position.x, -5, position.z);
 
       const scale = 1.5 + Math.random();
       tree.scale.set(scale, scale, scale);
@@ -108,9 +98,9 @@ export default class Floor {
 
     if (this.trees.length > this.treeBatchSize * 2) {
       const treesToRemove = this.trees.splice(0, this.treeBatchSize);
-      treesToRemove.forEach(tree => {
+      treesToRemove.forEach((tree) => {
         this.scene.remove(tree);
-        tree.traverse(child => {
+        tree.traverse((child) => {
           if (child.geometry) child.geometry.dispose();
           if (child.material) child.material.dispose();
         });
@@ -122,7 +112,6 @@ export default class Floor {
 
   update() {
     if (this.rockyTexture && this.camera) {
-
       this.rockyTexture.offset.x = this.camera.position.x * 0.01;
       this.rockyTexture.offset.y = this.camera.position.z * 0.01;
     }
@@ -132,7 +121,7 @@ export default class Floor {
     }
 
     const viewDistance = 300;
-    this.trees.forEach(tree => {
+    this.trees.forEach((tree) => {
       if (this.bird) {
         tree.visible = Math.abs(tree.position.x - this.bird.position.x) < viewDistance;
       }

@@ -19,7 +19,7 @@ export default class Bird {
   }
 
   loadBird() {
-    const loader = new GLTFLoader();   
+    const loader = new GLTFLoader();
     loader.load("./assets/objects/phoenix_bird.glb", (gltf) => {
       this.bird = gltf.scene;
       this.bird.position.set(0, 0, 0);
@@ -80,9 +80,8 @@ export default class Bird {
       this.bird.quaternion.copy(this.body.quaternion);
 
       // Batas bawah burung
-      if (this.body.position.y < -5) {
+      if (this.body.position.y < -45) {
         // Tetap jaga burung di posisi bawah, tetapi jangan matikan kecepatan
-        this.body.position.y = -5;
 
         //set velocity ke nol kalo bener' jatoh
         if (this.body.velocity.y < 0) {
@@ -90,7 +89,7 @@ export default class Bird {
         }
       }
 
-      if (Math.round(this.body.position.y) <= -5 && this.isFalling) {
+      if (Math.round(this.body.position.y) <= -45 && this.isFalling) {
         this.stopAnimation();
         this.stopBird();
         alert("Game Over semantara hehe");
@@ -106,9 +105,9 @@ export default class Bird {
     if (this.body && !this.isFalling) {
       // Cek apakah burung tidak sedang jatuh
       // Bisa loncat walaupun di posisi paling bawah
-      if (this.body.position.y <= -5) {
-        this.body.position.y = -1.99;
-      }
+      // if (this.body.position.y <= -5) {
+      //   this.body.position.y = -1.99;
+      // }
       this.body.velocity.y = 5; // Naik ke atas
     }
   }
