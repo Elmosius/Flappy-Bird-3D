@@ -12,6 +12,7 @@ export default class Bird {
     this.isFalling = false;
     this.physicsWorld = physicsWorld;
     this.scoreManager = scoreManager;
+    this.lastSpeedMultiplier = 1;
 
     this.initPhysics();
     this.loadBird();
@@ -65,10 +66,20 @@ export default class Bird {
     }
 
     if (this.bird && this.body) {
+      const currentScore = this.scoreManager.getScore();
+      const speedMultiplier = 1 + Math.floor(currentScore / 5) * 0.25;
+
+      if (speedMultiplier !== this.lastSpeedMultiplier) {
+        console.log(`nambah cepet ${speedMultiplier}`);
+        this.lastSpeedMultiplier = speedMultiplier;
+      }
+
+      this.body.velocity.set(3 * speedMultiplier, this.body.velocity.y, this.body.velocity.z);
+
       this.bird.position.copy(this.body.position);
       this.bird.quaternion.copy(this.body.quaternion);
 
-      // biar ga nembus lantai
+      // Biar ga nembus lantai
       if (this.body.position.y < -1) {
         this.body.position.y = -1;
         this.body.velocity.y = 0;
@@ -78,8 +89,7 @@ export default class Bird {
         this.stopAnimation();
         this.stopBird();
 
-        // reset dari awal lagi
-        alert("Game Over semetara hehe");
+        alert("Game Over semantara hehe");
         this.resetBird();
       }
 
