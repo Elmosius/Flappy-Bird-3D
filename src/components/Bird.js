@@ -3,7 +3,7 @@ import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLo
 import { Clock, AnimationMixer } from "three";
 
 export default class Bird {
-  constructor(scene, camera, physicsWorld) {
+  constructor(scene, camera, physicsWorld, scoreManager) {
     this.scene = scene;
     this.camera = camera;
     this.clock = new Clock();
@@ -11,6 +11,7 @@ export default class Bird {
     this.bird = null;
     this.isFalling = false;
     this.physicsWorld = physicsWorld;
+    this.scoreManager = scoreManager;
 
     this.initPhysics();
     this.loadBird();
@@ -129,6 +130,7 @@ export default class Bird {
         action.play();
       });
     }
+    this.scoreManager.resetScore();
     location.reload();
   }
 }
