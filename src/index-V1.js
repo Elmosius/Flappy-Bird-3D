@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
-import KeyboardHelper from "./components/Keyboard.js";
+import KeyboardHelper from "./components/keyboard.js";
 
 // Setup scene, camera, and renderer
 const scene = new THREE.Scene();
@@ -24,7 +24,7 @@ scene.add(directionalLight);
 
 // Floor with texture
 const textureLoader = new THREE.TextureLoader();
-const rockyTexture = textureLoader.load("./assets/textures/rocky_texture.jpg");
+const rockyTexture = textureLoader.load("./assets/textures/rockky.jpg");
 rockyTexture.wrapS = rockyTexture.wrapT = THREE.RepeatWrapping;
 rockyTexture.repeat.set(10, 10);
 
@@ -34,10 +34,10 @@ floor.position.y = -1;
 scene.add(floor);
 
 // Bark texture for pipes
-const barkColorTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
-const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_AmbientOcclusion.png");
-const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Roughness.png");
-const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_NormalGL.png");
+const barkColorTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkAOTexure = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkRoughnessTexture = textureLoader.load("./assets/textures/ pipe_texture.jpg");
+const barkNormalTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
 [barkColorTexture, barkAOTexure, barkRoughnessTexture, barkNormalTexture].forEach((tex) => {
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
 });

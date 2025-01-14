@@ -1,12 +1,12 @@
 import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import Controls from "./components/controls.js";
-import Lights from "./components/lights.js";
-import Floor from "./components/floor.js";
+import Lights from "./components/Lights.js";
+import Floor from "./components/Floor.js";
 import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
-import KeyboardHelper from "./components/Keyboard.js";
+import KeyboardHelper from "./components/keyboard.js";
 import AudioHelper from "./components/Audio.js";
 import Score from "./components/Score.js";
 
@@ -39,10 +39,10 @@ const keyboard = new KeyboardHelper();
 
 // PIPA
 const textureLoader = new THREE.TextureLoader();
-const barkColorTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
-const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_AmbientOcclusion.png");
-const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Roughness.png");
-const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_NormalGL.png");
+const barkColorTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkAOTexure = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkRoughnessTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkNormalTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
 const barkMaterial = new THREE.MeshStandardMaterial({
   map: barkColorTexture,
   aoMap: barkAOTexure,
@@ -52,7 +52,7 @@ const barkMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.0,
 });
 for (let i = 0; i < 5; i++) {
-  new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 10);
+  new Pipe(scene, barkMaterial, world, i * 20 + 10, 0, 20, 15);
 }
 // end of PIPA
 
@@ -80,19 +80,21 @@ function updateFloor() {
 }
 
 function updatePipes() {
-  scene.children.forEach((object) => {
-    if (object.name === "pipe" && object.position && object.position.y < 0) {
-      // Pastikan ini adalah pipa bawah
-      if (bird.body.position.x > object.position.x && !object.scored) {
-        scoreManager.updateScore(1);
-        object.scored = true;
-        console.log("Burung melewati pasangan pipa, skor bertambah.");
-      }
+  const pipes = scene.children.filter((object) => object.name === "pipe");
 
-      if (object.position.x < camera.position.x - 10) {
-        object.position.x += 100;
-        object.scored = false;
-      }
+  pipes.forEach((pipe) => {
+    // Cek apakah pipa telah melewati burung
+    if (bird.body.position.x > pipe.position.x && !pipe.scored) {
+      scoreManager.updateScore(1);
+      pipe.scored = true;
+      console.log("Burung melewati pasangan pipa, skor bertambah.");
+    }
+
+    // Jika pipa berada di luar pandangan kamera, pindahkan ke depan
+    if (pipe.position.x < camera.position.x - 10) {
+      const pairGap = 20;
+      pipe.position.x += pairGap * 5;
+      pipe.scored = false;
     }
   });
 }

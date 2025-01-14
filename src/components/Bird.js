@@ -79,16 +79,20 @@ export default class Bird {
       this.bird.position.copy(this.body.position);
       this.bird.quaternion.copy(this.body.quaternion);
 
-      // Biar ga nembus lantai
-      if (this.body.position.y < -1) {
-        this.body.position.y = -1;
-        this.body.velocity.y = 0;
+      // Batas bawah burung
+      if (this.body.position.y < -5) {
+        // Tetap jaga burung di posisi bawah, tetapi jangan matikan kecepatan
+        this.body.position.y = -5;
+
+        //set velocity ke nol kalo bener' jatoh
+        if (this.body.velocity.y < 0) {
+          this.body.velocity.y = 0;
+        }
       }
 
-      if (Math.round(this.body.position.y) <= -1 && this.isFalling) {
+      if (Math.round(this.body.position.y) <= -5 && this.isFalling) {
         this.stopAnimation();
         this.stopBird();
-
         alert("Game Over semantara hehe");
         this.resetBird();
       }
@@ -100,7 +104,12 @@ export default class Bird {
 
   jump() {
     if (this.body && !this.isFalling) {
-      this.body.velocity.y = 5;
+      // Cek apakah burung tidak sedang jatuh
+      // Bisa loncat walaupun di posisi paling bawah
+      if (this.body.position.y <= -5) {
+        this.body.position.y = -1.99;
+      }
+      this.body.velocity.y = 5; // Naik ke atas
     }
   }
 

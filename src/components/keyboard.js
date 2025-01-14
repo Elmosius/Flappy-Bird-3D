@@ -16,3 +16,4 @@ export default class KeyboardHelper {
     this.keyPressed[ev.key] = false;
   }
 }
+
