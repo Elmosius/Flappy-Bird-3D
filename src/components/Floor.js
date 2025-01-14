@@ -26,7 +26,6 @@ export default class Floor {
     });
     floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
     floorBody.position.set(0, -1, 0);
-    floor.userData = { offsetX: 0.001 };
     this.physicsWorld.addBody(floorBody);
   }
 }
