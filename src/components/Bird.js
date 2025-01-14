@@ -20,7 +20,9 @@ export default class Bird {
     const loader = new GLTFLoader();
     loader.load("./assets/objects/phoenix_bird.glb", (gltf) => {
       this.bird = gltf.scene;
-      this.bird.position.set(0, 1, 0);
+      this.bird.position.set(0, 0, 0);
+
+      console.info(this.bird.position);
       this.bird.scale.set(0.005, 0.005, 0.005);
       this.scene.add(this.bird);
 
@@ -35,13 +37,13 @@ export default class Bird {
   initPhysics() {
     this.body = new CANNON.Body({
       mass: 1,
-      position: new CANNON.Vec3(0, 1, 0),
+      position: new CANNON.Vec3(0, 5, 0),
       shape: new CANNON.Sphere(0.5),
     });
 
     this.body.collisionResponse = true;
     // biar maju ke depan terus
-    this.body.velocity.set(2, 0, 0);
+    this.body.velocity.set(3, 0, 0);
 
     // kunci burung biar ga jatuh
     this.body.angularFactor.set(0, 0, 0);
@@ -104,7 +106,7 @@ export default class Bird {
     this.body.velocity.set(0, 0, 0);
   }
 
-  onCollision(event) {
+  onCollision() {
     this.body.velocity.set(-2, -5, 0);
     this.body.angularFactor.set(1, 1, 1);
     this.body.angularVelocity.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);
