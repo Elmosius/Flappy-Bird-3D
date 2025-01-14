@@ -97,7 +97,7 @@ export default class Bird {
         this.resetBird();
       }
   
-      this.camera.position.set(this.bird.position.x - 5, this.bird.position.y + 2, this.bird.position.z);
+      this.camera.position.set(this.bird.position.x - 5, this.bird.position.y + 1, this.bird.position.z - 5);
       this.camera.lookAt(this.bird.position);
     }
   }

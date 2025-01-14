@@ -11,7 +11,7 @@ export default class Floor {
     this.rockyTexture = null;
     this.trees = [];
     this.treeModel = null;
-    this.lastTreePosition = -200; //ada pohon di awal
+    this.lastTreePosition = -200; 
     this.treeBatchSize = 30;
     this.initFloor();
     this.loadTreeModel();
@@ -19,7 +19,7 @@ export default class Floor {
 
   initFloor() {
     const textureLoader = new THREE.TextureLoader();
-    this.rockyTexture = textureLoader.load("./assets/textures/rockky.jpg");
+    this.rockyTexture = textureLoader.load("./assets/textures/rocky_texture.jpg");
     this.rockyTexture.wrapS = this.rockyTexture.wrapT = THREE.RepeatWrapping;
     this.rockyTexture.repeat.set(50, 50);
 

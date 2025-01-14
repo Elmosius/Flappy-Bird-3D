@@ -19,66 +19,92 @@ export default class Pipe {
   addPipes() {
     const randomGapY = Math.random() * 10 - 5;
 
-    const bottomPipeMesh = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, this.height, 32), this.barkMaterial);
-    bottomPipeMesh.position.set(this.x, randomGapY - this.gap / 2 - this.height / 2, this.z);
+    // Pipa Bawah
+    const bottomPipeMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(2, 2, this.height + 40, 32), 
+        this.barkMaterial
+    );
+    bottomPipeMesh.position.set(
+        this.x, 
+        randomGapY - this.gap / 4 - (this.height + 40) / 2, 
+        this.z
+    );
     bottomPipeMesh.name = "pipe";
     bottomPipeMesh.scored = false;
     this.scene.add(bottomPipeMesh);
 
     const bottomPipeBody = new CANNON.Body({
-      type: CANNON.Body.STATIC,
-      shape: new CANNON.Cylinder(1, 1, this.height, 32),
+        type: CANNON.Body.STATIC,
+        shape: new CANNON.Cylinder(2, 2, this.height + 40, 32),
     });
-    bottomPipeBody.position.set(this.x, randomGapY - this.gap / 2 - this.height / 2, this.z);
+    bottomPipeBody.position.set(
+        this.x, 
+        randomGapY - this.gap / 4 - (this.height + 40) / 2, 
+        this.z
+    );
     this.physicsWorld.addBody(bottomPipeBody);
 
-    const bottomEdgeGeometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 32);
+    // Edge bawah
+    const bottomEdgeGeometry = new THREE.CylinderGeometry(2.5, 2.5, 2, 32);
     const bottomEdgeMesh = new THREE.Mesh(bottomEdgeGeometry, this.barkMaterial);
-    bottomEdgeMesh.position.set(this.x, randomGapY - this.gap / 2, this.z);
+    bottomEdgeMesh.position.set(this.x, randomGapY - this.gap / 4, this.z);
     bottomEdgeMesh.name = "pipe";
     this.scene.add(bottomEdgeMesh);
 
     const bottomEdgeBody = new CANNON.Body({
-      type: CANNON.Body.STATIC,
-      shape: new CANNON.Cylinder(1.5, 1.5, 2, 32),
+        type: CANNON.Body.STATIC,
+        shape: new CANNON.Cylinder(3, 3, 2, 32),
     });
-    bottomEdgeBody.position.set(this.x, randomGapY - this.gap / 2, this.z);
+    bottomEdgeBody.position.set(this.x, randomGapY - this.gap / 4, this.z);
     this.physicsWorld.addBody(bottomEdgeBody);
 
-    const topPipeMesh = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, this.height, 32), this.barkMaterial);
-    topPipeMesh.position.set(this.x, randomGapY + this.gap / 2 + this.height / 2, this.z);
+    this.bottomPipe = {
+        mesh: bottomPipeMesh,
+        body: bottomPipeBody,
+        edge: { mesh: bottomEdgeMesh, body: bottomEdgeBody },
+    };
+
+    // Pipa Atas (tetap sama)
+    const topPipeMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(2, 2, this.height + 30, 32), 
+        this.barkMaterial
+    );
+    topPipeMesh.position.set(
+        this.x, 
+        randomGapY + this.gap / 2 + this.height + 10 / 2, 
+        this.z
+    );
     topPipeMesh.name = "pipe";
     this.scene.add(topPipeMesh);
 
     const topPipeBody = new CANNON.Body({
-      type: CANNON.Body.STATIC,
-      shape: new CANNON.Cylinder(1, 1, this.height, 32),
+        type: CANNON.Body.STATIC,
+        shape: new CANNON.Cylinder(2, 2, this.height, 32),
     });
-    topPipeBody.position.set(this.x, randomGapY + this.gap / 2 + this.height / 2, this.z);
+    topPipeBody.position.set(
+        this.x, 
+        randomGapY + this.gap / 2 + this.height / 2, 
+        this.z
+    );
     this.physicsWorld.addBody(topPipeBody);
 
-    const topEdgeGeometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 32);
+    const topEdgeGeometry = new THREE.CylinderGeometry(2.5, 2.5, 2, 32);
     const topEdgeMesh = new THREE.Mesh(topEdgeGeometry, this.barkMaterial);
     topEdgeMesh.position.set(this.x, randomGapY + this.gap / 2, this.z);
     topEdgeMesh.name = "pipe";
     this.scene.add(topEdgeMesh);
 
     const topEdgeBody = new CANNON.Body({
-      type: CANNON.Body.STATIC,
-      shape: new CANNON.Cylinder(1.5, 1.5, 2, 32),
+        type: CANNON.Body.STATIC,
+        shape: new CANNON.Cylinder(3, 3, 2, 32),
     });
     topEdgeBody.position.set(this.x, randomGapY + this.gap / 2, this.z);
     this.physicsWorld.addBody(topEdgeBody);
 
-    this.bottomPipe = {
-      mesh: bottomPipeMesh,
-      body: bottomPipeBody,
-      edge: { mesh: bottomEdgeMesh, body: bottomEdgeBody },
-    };
     this.topPipe = {
-      mesh: topPipeMesh,
-      body: topPipeBody,
-      edge: { mesh: topEdgeMesh, body: topEdgeBody },
+        mesh: topPipeMesh,
+        body: topPipeBody,
+        edge: { mesh: topEdgeMesh, body: topEdgeBody },
     };
-  }
+}
 }

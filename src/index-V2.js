@@ -7,18 +7,22 @@ import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
 import KeyboardHelper from "./components/keyboard.js";
-import KeyboardHelper from "./components/Keyboard.js";
 import AudioHelper from "./components/Audio.js";
 import Score from "./components/Score.js";
+import Mountain from "./components/Mountain.js";
 
 
 //* SETUP
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0xa0a0a0, 20, 100);
+scene.fog = new THREE.Fog(0xa0a0a0, 100, 500);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Mountain 
+const mountain = new Mountain();
+mountain.loadMountain(scene);
 
 // cannon
 const world = new CANNON.World();
@@ -26,7 +30,7 @@ world.gravity.set(0, -9.82, 0);
 
 // new Controls(camera, document.body);
 new Lights(scene);
-new Floor(scene, world);
+// new Floor(scene, world);
 new SkyBox(scene);
 
 // set audio
@@ -41,10 +45,10 @@ const keyboard = new KeyboardHelper();
 
 // PIPA
 const textureLoader = new THREE.TextureLoader();
-const barkColorTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
-const barkAOTexure = textureLoader.load("./assets/textures/pipe_texture.jpg");
-const barkRoughnessTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
-const barkNormalTexture = textureLoader.load("./assets/textures/pipe_texture.jpg");
+const barkColorTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
+const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
+const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
+const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
 const barkMaterial = new THREE.MeshStandardMaterial({
   map: barkColorTexture,
   aoMap: barkAOTexure,
@@ -112,6 +116,7 @@ function animate() {
   bird.update();
   updatePipes();
   updateFloor();
+
   renderer.render(scene, camera);
 }
 animate();
