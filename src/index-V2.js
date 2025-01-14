@@ -1,7 +1,7 @@
 import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import Controls from "./components/controls.js";
-import Lights from "./components/lights.js";
+import Lights from "./components/Lights.js";
 import Floor from "./components/Floor.js";
 import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";

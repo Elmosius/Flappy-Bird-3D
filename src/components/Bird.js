@@ -91,15 +91,16 @@ export default class Bird {
   }
   
 
-  jump() {
-    if (this.body) {
-      //bisa loncat walaupun di posisi paling bawah
-      if (this.body.position.y <= -5) {
-        this.body.position.y = -1.99; 
-      }
-      this.body.velocity.y = 5; //naik ke atas
+ jump() {
+  if (this.body && !this.isFalling) { // Cek apakah burung tidak sedang jatuh
+    // Bisa loncat walaupun di posisi paling bawah
+    if (this.body.position.y <= -5) {
+      this.body.position.y = -1.99;
     }
+    this.body.velocity.y = 5; // Naik ke atas
   }
+}
+
   
 
   stopAnimation() {
