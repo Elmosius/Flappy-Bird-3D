@@ -19,7 +19,7 @@ export default class Bird {
   }
 
   loadBird() {
-    const loader = new GLTFLoader();
+    const loader = new GLTFLoader();   
     loader.load("./assets/objects/phoenix_bird.glb", (gltf) => {
       this.bird = gltf.scene;
       this.bird.position.set(0, 0, 0);
@@ -39,7 +39,7 @@ export default class Bird {
   initPhysics() {
     this.body = new CANNON.Body({
       mass: 1,
-      position: new CANNON.Vec3(0, 5, 0),
+      position: new CANNON.Vec3(0, 1, 0),
       shape: new CANNON.Sphere(0.5),
     });
 

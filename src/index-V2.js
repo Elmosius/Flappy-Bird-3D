@@ -84,17 +84,13 @@ function updateFloor() {
 
 function updatePipes() {
   pipes.forEach((pipe) => {
-    // Cek apakah burung melewati pipa
     if (bird.body.position.x > pipe.bottomPipe.mesh.position.x && !pipe.bottomPipe.mesh.scored) {
       scoreManager.updateScore(1);
       pipe.bottomPipe.mesh.scored = true;
-      console.log("Burung melewati pasangan pipa, skor bertambah.");
     }
 
-    // Jika pipa keluar dari pandangan kamera, pindahkan ke depan
     if (pipe.bottomPipe.mesh.position.x < camera.position.x - 10) {
-      const pairGap = 20;
-      const newX = pipe.bottomPipe.mesh.position.x + pairGap * 5;
+      const newX = pipe.bottomPipe.mesh.position.x + 100;
       pipe.updatePosition(newX, pipe.bottomPipe.mesh.position.z);
       pipe.bottomPipe.mesh.scored = false;
     }
