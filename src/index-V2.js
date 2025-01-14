@@ -7,6 +7,7 @@ import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
 import KeyboardHelper from "./components/Keyboard.js";
+import AudioHelper from "./components/Audio.js";
 
 //* SETUP
 const scene = new THREE.Scene();
@@ -24,7 +25,13 @@ world.gravity.set(0, -9.82, 0);
 new Lights(scene);
 new Floor(scene, world);
 new SkyBox(scene);
-// new Audio(camera);
+
+// set audio
+// const audio = new AudioHelper(camera, "/src/assets/audios/backsound_squid_game.mp3", {
+//   loop: true,
+//   volume: 0.5,
+//   autoplay: true,
+// });
 
 const keyboard = new KeyboardHelper();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,10 +63,8 @@ function updateFloor() {
 
   scene.children.forEach((object) => {
     if (object.name === "floor") {
-      // Tambahkan offset.x ke posisi lantai
-      // object.position.x -= object.userData.offsetX;
       const speed = bird.body.velocity.x;
-      object.position.x -= speed * 0.1;
+      object.position.x -= speed * 0.01;
 
       // Jika lantai sudah di luar pandangan kamera, pindahkan ke depan
       if (object.position.x < birdX - 50) {
