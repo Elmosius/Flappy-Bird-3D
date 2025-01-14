@@ -6,7 +6,7 @@ Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata ku
 - Josephine Alvina L  
 - Elmosius Suli 
 - Christopher Wijaya
-- Cherno Jov
+- Cherno Salwa Joviansyah
 
 ## 🎯 Tujuan
 - Membuat sebuah games seperti Flappy Bird namun dalam bentuk 3D
