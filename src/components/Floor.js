@@ -23,12 +23,14 @@ export default class Floor {
     this.rockyTexture.wrapS = this.rockyTexture.wrapT = THREE.RepeatWrapping;
     this.rockyTexture.repeat.set(50, 50);
 
+
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(500, 500),
       new THREE.MeshStandardMaterial({ map: this.rockyTexture })
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -5;
+    floor.name = "floor";
     this.scene.add(floor);
 
     const floorBody = new CANNON.Body({
