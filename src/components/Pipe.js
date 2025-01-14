@@ -20,7 +20,7 @@ export default class Pipe {
     const randomGapY = Math.random() * 10 - 5;
 
     const bottomPipeMesh = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, this.height, 32), this.barkMaterial);
-    bottomPipeMesh.position.set(this.x, randomGapY - this.gap / 2 - this.height / 2, this.z);
+    bottomPipeMesh.position.set(this.x, randomGapY - this.gap /4 - this.height /4, this.z);
     bottomPipeMesh.name = "pipe";
     bottomPipeMesh.scored = false;
     this.scene.add(bottomPipeMesh);
@@ -29,12 +29,12 @@ export default class Pipe {
       type: CANNON.Body.STATIC,
       shape: new CANNON.Cylinder(1, 1, this.height, 32),
     });
-    bottomPipeBody.position.set(this.x, randomGapY - this.gap / 2 - this.height / 2, this.z);
+    bottomPipeBody.position.set(this.x, randomGapY - this.gap /4 - this.height /4, this.z);
     this.physicsWorld.addBody(bottomPipeBody);
 
     const bottomEdgeGeometry = new THREE.CylinderGeometry(1.5, 1.5, 2, 32);
     const bottomEdgeMesh = new THREE.Mesh(bottomEdgeGeometry, this.barkMaterial);
-    bottomEdgeMesh.position.set(this.x, randomGapY - this.gap / 2, this.z);
+    bottomEdgeMesh.position.set(this.x, randomGapY - this.gap / 4 - this.height / 4 + this.height / 2, this.z);
     bottomEdgeMesh.name = "pipe";
     this.scene.add(bottomEdgeMesh);
 
