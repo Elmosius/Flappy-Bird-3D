@@ -24,6 +24,7 @@ world.gravity.set(0, -9.82, 0);
 new Lights(scene);
 new Floor(scene, world);
 new SkyBox(scene);
+// new Audio(camera);
 
 const keyboard = new KeyboardHelper();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +50,40 @@ for (let i = 0; i < 5; i++) {
 const bird = new Bird(scene, camera, world);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function updateFloor() {
+  const birdX = bird.body.position.x;
+
+  scene.children.forEach((object) => {
+    if (object.name === "floor") {
+      // Tambahkan offset.x ke posisi lantai
+      // object.position.x -= object.userData.offsetX;
+      const speed = bird.body.velocity.x;
+      object.position.x -= speed * 0.1;
+
+      // Jika lantai sudah di luar pandangan kamera, pindahkan ke depan
+      if (object.position.x < birdX - 50) {
+        object.position.x += 100;
+      }
+    }
+  });
+}
+
+function updatePipes() {
+  scene.children.forEach((object) => {
+    if (object.name === "pipe" && object.position) {
+      if (object.position.x < camera.position.x - 10) {
+        // Geser pipa ke depan
+        object.position.x += 100;
+        if (object.body) {
+          // Update physics body juga (jika ada)
+          object.body.position.x += 100;
+        }
+      }
+    }
+  });
+}
+
 function animate() {
   requestAnimationFrame(animate);
 
@@ -59,6 +94,8 @@ function animate() {
   }
 
   bird.update();
+  updatePipes();
+  updateFloor();
   renderer.render(scene, camera);
 }
 animate();

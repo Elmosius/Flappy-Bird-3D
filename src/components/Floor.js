@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as CANNON from "cannon-es";
- 
+
 export default class Floor {
   constructor(scene, physicsWorld) {
     this.scene = scene;
@@ -14,9 +14,10 @@ export default class Floor {
     rockyTexture.wrapS = rockyTexture.wrapT = THREE.RepeatWrapping;
     rockyTexture.repeat.set(10, 10);
 
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshStandardMaterial({ map: rockyTexture }));
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(500, 500), new THREE.MeshStandardMaterial({ map: rockyTexture }));
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -1;
+    floor.name = "floor";
     this.scene.add(floor);
 
     const floorBody = new CANNON.Body({
@@ -25,6 +26,7 @@ export default class Floor {
     });
     floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
     floorBody.position.set(0, -1, 0);
+    floor.userData = { offsetX: 0.001 };
     this.physicsWorld.addBody(floorBody);
   }
 }
