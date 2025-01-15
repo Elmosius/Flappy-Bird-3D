@@ -148,6 +148,7 @@ export default class Bird {
       });
     }
     this.scoreManager.resetScore();
+    localStorage.setItem("fromMain", "true");
     window.location.replace("ending.html");
   }
 }

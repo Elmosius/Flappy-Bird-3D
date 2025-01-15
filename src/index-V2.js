@@ -37,7 +37,7 @@ mountain.loadMountain(scene);
 const world = new CANNON.World();
 world.gravity.set(0, -9.82, 0);
 
-// new Controls(camera, document.body);
+new Controls(camera, document.body);
 new Lights(scene);
 new Floor(scene, world);
 new SkyBox(scene);

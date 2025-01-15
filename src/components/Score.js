@@ -9,7 +9,7 @@ export default class Score {
     this.scoreElement.id = "score";
     this.scoreElement.style.position = "absolute";
     this.scoreElement.style.top = "10px";
-    this.scoreElement.style.left = "800px";
+    this.scoreElement.style.left = "900px";
     this.scoreElement.style.color = "black";
     this.scoreElement.style.fontSize = "5rem";
     this.scoreElement.style.fontWeight = "bold";

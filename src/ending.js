@@ -5,6 +5,16 @@ import Box3D from './components/Box3D.js';
 
 let scene, camera, renderer;
 
+// Cek apakah halaman telah diakses sebelumnya
+if (!localStorage.getItem("fromMain")) {
+	// Jika tidak, kembalikan ke halaman openning.html
+	window.location.href = "opening.html";
+  } else {
+	// Jika ya, hapus status untuk mencegah reload kembali ke openning.html
+	localStorage.removeItem("fromMain");
+  }
+
+
 function init() {
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(
@@ -57,11 +67,6 @@ function init() {
 		{
 			size: 70,
 			height: 5,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-430, 190, 10]
@@ -104,11 +109,6 @@ function init() {
 		{
 			size: 20,
 			height: 2,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 1,
-			bevelSize: 1,
-			bevelSegments: 2,
 		},
 		{ color: 0xffffff },
 		[-260, -100, 10]
@@ -137,11 +137,6 @@ function init() {
 		{
 			size: 20,
 			height: 2,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 1,
-			bevelSize: 1,
-			bevelSegments: 2,
 		},
 		{ color: 0xffffff },
 		[50, -100, 10]

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import Text3D from './components/Text3D.js';
 import Box3D from './components/Box3D.js';
+import AudioHelper from "./components/Audio.js";
 
 let scene, camera, renderer;
 
@@ -23,6 +24,14 @@ function init() {
 	controls.addEventListener('change', animate);
 	controls.minDistance = 500;
 	controls.maxDistance = 1500;
+
+	// audio
+	const audio = new AudioHelper(camera, "/src/assets/audios/Opening-Flappy Bird.mp3", {
+		loop: true,
+		volume: 0.5,
+		autoplay: true,
+	  });
+	
 
 	// Skybox
 	let materialArray = [];
@@ -57,11 +66,6 @@ function init() {
 		{
 			size: 30,
 			height: 5,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-400, 250, 10]
@@ -75,11 +79,6 @@ function init() {
 		{
 			size: 25,
 			height: 1,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-400, 150, 10]
@@ -93,11 +92,6 @@ function init() {
 		{
 			size: 25,
 			height: 1,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-400, 50, 10]
@@ -111,11 +105,6 @@ function init() {
 		{
 			size: 25,
 			height: 1,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-400, -50, 10]
@@ -129,11 +118,6 @@ function init() {
 		{
 			size: 25,
 			height: 1,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-400, -150, 10]
@@ -147,11 +131,6 @@ function init() {
 		{
 			size: 25,
 			height: 1,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 5,
-			bevelSize: 2,
-			bevelSegments: 5,
 		},
 		{ color: 0xffffff },
 		[-400, -250, 10]
@@ -194,11 +173,6 @@ function init() {
 		{
 			size: 20,
 			height: 2,
-			curveSegments: 12,
-			bevelEnabled: true,
-			bevelThickness: 1,
-			bevelSize: 1,
-			bevelSegments: 2,
 		},
 		{ color: 0xffffff },
 		[-740, 340, 10]

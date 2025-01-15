@@ -52,11 +52,6 @@ function init() {
     {
       size: 80,
       height: 5,
-      curveSegments: 12,
-      bevelEnabled: true,
-      bevelThickness: 5,
-      bevelSize: 2,
-      bevelSegments: 5,
     },
     { color: 0xffffff },
     [-400, 200, 10]
@@ -99,11 +94,6 @@ function init() {
     {
       size: 20,
       height: 2,
-      curveSegments: 12,
-      bevelEnabled: true,
-      bevelThickness: 1,
-      bevelSize: 1,
-      bevelSegments: 2,
     },
     { color: 0xffffff },
     [-240, -100, 10]
@@ -132,11 +122,6 @@ function init() {
     {
       size: 20,
       height: 2,
-      curveSegments: 12,
-      bevelEnabled: true,
-      bevelThickness: 1,
-      bevelSize: 1,
-      bevelSegments: 2,
     },
     { color: 0xffffff },
     [100, -100, 10]
