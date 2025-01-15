@@ -1,7 +1,8 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
-import KeyboardHelper from './components/Keyboard.js';
+
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls.js";
+import KeyboardHelper from "./components/keyboard.js";
 
 // Setup scene, camera, and renderer
 const scene = new THREE.Scene();
@@ -30,6 +31,7 @@ scene.add(directionalLight);
 // Floor with texture
 const textureLoader = new THREE.TextureLoader();
 const rockyTexture = textureLoader.load('./assets/textures/rocky_texture.jpg');
+
 rockyTexture.wrapS = rockyTexture.wrapT = THREE.RepeatWrapping;
 rockyTexture.repeat.set(10, 10);
 
@@ -42,6 +44,7 @@ floor.position.y = -1;
 scene.add(floor);
 
 // Bark texture for pipes
+
 const barkColorTexture = textureLoader.load(
 	'./assets/textures/Bark014_1K-PNG_Color.png'
 );
