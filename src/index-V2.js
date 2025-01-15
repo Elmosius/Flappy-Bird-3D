@@ -1,4 +1,3 @@
-
 import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import Controls from "./components/controls.js";
@@ -13,12 +12,12 @@ import Mountain from "./components/Mountain.js";
 import Floor from "./components/floor.js";
 
 // Cek apakah halaman telah diakses sebelumnya
-if (!localStorage.getItem('fromOpening')) {
-	// Jika tidak, kembalikan ke halaman openning.html
-	window.location.href = 'opening.html';
+if (!localStorage.getItem("fromOpening")) {
+  // Jika tidak, kembalikan ke halaman openning.html
+  window.location.href = "opening.html";
 } else {
-	// Jika ya, hapus status untuk mencegah reload kembali ke openning.html
-	localStorage.removeItem('fromOpening');
+  // Jika ya, hapus status untuk mencegah reload kembali ke openning.html
+  localStorage.removeItem("fromOpening");
 }
 
 //* SETUP
@@ -44,36 +43,28 @@ new Floor(scene, world);
 new SkyBox(scene);
 
 // set audio
-// const audio = new AudioHelper(camera, "/src/assets/audios/backsound_squid_game.mp3", {
-//   loop: true,
-//   volume: 0.5,
-//   autoplay: true,
-// });
+const audio = new AudioHelper(camera, "/src/assets/audios/backsound_squid_game.mp3", {
+  loop: true,
+  volume: 0.5,
+  autoplay: true,
+});
 
 const keyboard = new KeyboardHelper();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // PIPA
 const textureLoader = new THREE.TextureLoader();
-const barkColorTexture = textureLoader.load(
-	'./assets/textures/Bark014_1K-PNG_Color.png'
-);
-const barkAOTexure = textureLoader.load(
-	'./assets/textures/Bark014_1K-PNG_AmbientOcclusion.png'
-);
-const barkRoughnessTexture = textureLoader.load(
-	'./assets/textures/Bark014_1K-PNG_Roughness.png'
-);
-const barkNormalTexture = textureLoader.load(
-	'./assets/textures/Bark014_1K-PNG_NormalGL.png'
-);
+const barkColorTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Color.png");
+const barkAOTexure = textureLoader.load("./assets/textures/Bark014_1K-PNG_AmbientOcclusion.png");
+const barkRoughnessTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_Roughness.png");
+const barkNormalTexture = textureLoader.load("./assets/textures/Bark014_1K-PNG_NormalGL.png");
 const barkMaterial = new THREE.MeshStandardMaterial({
-	map: barkColorTexture,
-	aoMap: barkAOTexure,
-	roughnessMap: barkRoughnessTexture,
-	normalMap: barkNormalTexture,
-	roughness: 1.0,
-	metalness: 0.0,
+  map: barkColorTexture,
+  aoMap: barkAOTexure,
+  roughnessMap: barkRoughnessTexture,
+  normalMap: barkNormalTexture,
+  roughness: 1.0,
+  metalness: 0.0,
 });
 
 const pipes = [];
@@ -122,10 +113,9 @@ function updatePipes() {
 }
 
 function animate() {
-	requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 
-	world.step(1 / 60);
-
+  world.step(1 / 60);
 
   if (keyboard.keys[" "]) {
     bird.jump();
@@ -137,12 +127,11 @@ function animate() {
   updateFloor();
 
   renderer.render(scene, camera);
-
 }
 animate();
 
-window.addEventListener('resize', () => {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize(window.innerWidth, window.innerHeight);
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });

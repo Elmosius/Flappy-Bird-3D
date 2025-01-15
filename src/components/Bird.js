@@ -1,6 +1,6 @@
-import * as CANNON from 'cannon-es';
-import { GLTFLoader } from '../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
-import { Clock, AnimationMixer } from 'three';
+import * as CANNON from "cannon-es";
+import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+import { Clock, AnimationMixer } from "three";
 
 export default class Bird {
   constructor(scene, camera, physicsWorld, scoreManager) {
@@ -92,7 +92,6 @@ export default class Bird {
       if (Math.round(this.body.position.y) <= -45 && this.isFalling) {
         this.stopAnimation();
         this.stopBird();
-        alert("Game Over semantara hehe");
         this.resetBird();
       }
 
@@ -149,6 +148,6 @@ export default class Bird {
       });
     }
     this.scoreManager.resetScore();
-    location.reload();
+    window.location.replace("ending.html");
   }
 }
