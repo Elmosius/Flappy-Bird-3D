@@ -2,37 +2,52 @@ import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import Controls from "./components/controls.js";
 import Lights from "./components/Lights.js";
-import Floor from "./components/Floor.js";
 import SkyBox from "./components/SkyBox.js";
 import Pipe from "./components/Pipe.js";
 import Bird from "./components/Bird.js";
 import KeyboardHelper from "./components/keyboard.js";
 import AudioHelper from "./components/Audio.js";
 import Score from "./components/Score.js";
+import Mountain from "./components/Mountain.js";
+import Floor from "./components/floor.js";
+
+// Cek apakah halaman telah diakses sebelumnya
+if (!localStorage.getItem("fromOpening")) {
+  // Jika tidak, kembalikan ke halaman openning.html
+  window.location.href = "opening.html";
+} else {
+  // Jika ya, hapus status untuk mencegah reload kembali ke openning.html
+  localStorage.removeItem("fromOpening");
+}
 
 //* SETUP
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0xa0a0a0, 20, 100);
+scene.fog = new THREE.Fog(0xa0a0a0, 100, 500);
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Mountain
+const mountain = new Mountain();
+mountain.loadMountain(scene);
 
 // cannon
 const world = new CANNON.World();
 world.gravity.set(0, -9.82, 0);
 
-// new Controls(camera, document.body);
+new Controls(camera, document.body);
 new Lights(scene);
 new Floor(scene, world);
 new SkyBox(scene);
 
 // set audio
-// const audio = new AudioHelper(camera, "/src/assets/audios/backsound_squid_game.mp3", {
-//   loop: true,
-//   volume: 0.5,
-//   autoplay: true,
-// });
+const audio = new AudioHelper(camera, "/src/assets/audios/backsound_squid_game.mp3", {
+  loop: true,
+  volume: 0.5,
+  autoplay: true,
+});
 
 const keyboard = new KeyboardHelper();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +125,7 @@ function animate() {
   bird.update();
   updatePipes();
   updateFloor();
+
   renderer.render(scene, camera);
 }
 animate();
