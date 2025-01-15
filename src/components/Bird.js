@@ -1,6 +1,6 @@
-import * as CANNON from "cannon-es";
-import { GLTFLoader } from "../../node_modules/three/examples/jsm/loaders/GLTFLoader.js";
-import { Clock, AnimationMixer } from "three";
+import * as CANNON from 'cannon-es';
+import { GLTFLoader } from '../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import { Clock, AnimationMixer } from 'three';
 
 export default class Bird {
   constructor(scene, camera, physicsWorld, scoreManager) {
