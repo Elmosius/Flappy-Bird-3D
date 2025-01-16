@@ -12,7 +12,12 @@ Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata ku
 - Membuat sebuah games seperti Flappy Bird namun dalam bentuk 3D
 
 ## 📚 Daftar Branch
-- Main
+- Main (default)
+- Chris
+- Elmo
+- Cherno
+- Jessica
+- Josephine
 
 ## ⚙️ Teknologi yang dipakai
 - Three.js
