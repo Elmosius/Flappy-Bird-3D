@@ -23,4 +23,13 @@ Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata ku
 - Coming Soon
 
 ## ⚠️ Instalasi
-- Coming Soon
+Berikut langkah-langkah untuk menginstal dan menjalankan aplikasi:
+1. Clone repository:
+```
+git clone https://github.com/Elmosius/Flappy-Bird-3D.git
+```
+2. Instal node module:
+```
+npm install
+```
+3. Run index.js menggunakan live server
