@@ -1,4 +1,4 @@
-# Flappy Bird 3D
+# 🦅 Flappy Bird 3D
 
 Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata kuliah Grafika Komputer menggunakan JS. Kami adalah Kelompok 3 yang terdiri dari:
 
@@ -16,7 +16,8 @@ Selamat datang di repositori GitHub kami untuk  Proyek Tugas Besar Akhir mata ku
 
 ## ⚙️ Teknologi yang dipakai
 - Three.js
-- React Three Fiber
+- Dat.gui
+- Cannon-es
 
 ## 💻 Demo
 - Coming Soon
